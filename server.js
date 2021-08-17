@@ -4,7 +4,10 @@ const PORT = process.env.PORT
 
 const express = require( "express" )
 const mongoose = require( "./db/connection.js" )
+
 const cors = require ( "cors" )
+const corsOptions = require("./configs/cors.js")
+
 const morgan = require( "morgan" )
 
 const app = express()
