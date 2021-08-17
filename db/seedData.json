@@ -4,5 +4,15 @@
         "description": "A fucking good custard pie, developed for my wife during the covids",
         "ingredients": [ "eggs", "sugar", "lemons", "pie"],
         "img": ""
+    },
+    {
+        "name": "No-Knead Bread",
+        "description": "An easy overnight loaf. Scalable and great for experimenting with flavours.",
+        "ingredients": [ "flour", "dry yeast", "water"]
+    },
+    {
+        "name": "Dream Cookies",
+        "description" : "A little extra work makes these Oatmeal Chocolate Chip cookies more than the sum of their parts!",
+        "ingredients": [ "flour", "sugar", "oatmeal", "chocolate", "chocolate chips" ]
     }
 ]

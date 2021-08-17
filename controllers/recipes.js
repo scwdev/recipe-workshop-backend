@@ -59,4 +59,17 @@ router.put( "/:id", async ( request, response ) => {
     }
 })
 
+router.delete( "/:id", async ( request, response ) => {
+    try {
+        const deleted = await Recipe.findById( request.params.id )
+        await Recipe.findByIdAndDelete( request.params.id )
+        response.json({
+            status: 200,
+            msg: `${deleted.name} deleted.`
+        })
+    } catch ( error ) {
+        console.log( error )
+    }
+})
+
 module.exports = router
