@@ -7,26 +7,55 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Recipe {
-  id              Int       @id @default(autoincrement())
-  createdAt       DateTime  @default(now())
-  updatedAt       DateTime  @updatedAt
-  title           String    @db.VarChar(255)
-  description     String    @db.Text
-  ingredients     IngredientsInRecipes[]
+model User {
+  id              Int         @id @default(autoincrement())
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  username        String      @unique
+  authoredRecipes Recipe[]    @relation("AuthoredRecipes")
+  workingRecipes  Recipe[]    @relation("WorkingRecipes")
   
 }
 
+model Recipe {
+  id              Int         @id @default(autoincrement())
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  author          User        @relation(name: "AuthoredRecipes",fields: [authorUsername], references: [username])
+  authorUsername  String      
+  user            User        @relation(name: "WorkingRecipes",fields: [username], references: [username])
+  username        String
+  title           String      @db.VarChar(255)
+  description     String      @db.Text
+  public          Boolean     @db.Boolean @default(true)
+  ingredients     IngredientsInRecipes[]
+  instructions    Instruction[]
+}
+
 model Ingredient {
-  id              Int       @id @default(autoincrement())
+  id              Int         @id @default(autoincrement())
+  name            String      @db.VarChar(255) @unique
   recipes         IngredientsInRecipes[]
 }
 
+model Instruction {
+  id              Int         @id @default(autoincrement())
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  text            String      @db.Text
+  recipe          Recipe      @relation(fields: [recipeId], references: [id])
+  recipeId        Int
+
+}
+
 model IngredientsInRecipes {
-  recipe      Recipe  @relation(fields: [recipeId], references: [id])
-  recipeId    Int
+  id              Int         @unique @default(autoincrement())
+  recipe          Recipe      @relation(fields: [recipeId], references: [id])
+  recipeId        Int
   ingredient      Ingredient  @relation(fields: [ingredientId], references: [id])
   ingredientId    Int
   unit            String      @db.VarChar(255)
   quantify        Int         @db.Integer
+
+  @@id([id, recipeId, ingredientId])
 }
